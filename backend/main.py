@@ -52,7 +52,10 @@ app.add_middleware(
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    temp_path = f"temp/{file.filename}"
+    temp_dir = "temp"
+    os.makedirs(temp_dir, exist_ok=True)
+
+    temp_path = os.path.join(temp_dir, file.filename)
 
     with open(temp_path, "wb") as f:
         f.write(await file.read())
