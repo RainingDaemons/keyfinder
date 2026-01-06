@@ -1,0 +1,6 @@
+fastapi[standard]
+torch
+soundfile
+librosa
+numpy
+python-dotenv

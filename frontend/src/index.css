@@ -1,0 +1,13 @@
+/*
+@Date         : 06-01-2026
+@Author       : Felipe Gutiérrez Carilao
+@Website      : https://www.rainingdaemons.com/
+@Module       : frontend/src
+@File         : index.css
+*/
+
+@import "tailwindcss";
+
+body {
+    @apply bg-zinc-800;
+}
