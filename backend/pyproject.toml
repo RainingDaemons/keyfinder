@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "keyfinder-backend"
+version = "0.1.0"
+description = "Backend of keyfinder project"
+authors = ["Felipe Gutiérrez <fgutierrezcarilao@gmail.com>"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "*"
+uvicorn = "*"
+pydantic-settings = "*"
+torch = "*"
+soundfile = "*"
+librosa = "*"
+numpy = "*"
+python-dotenv = "*"
+python-multipart = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -12,9 +12,9 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.validator import validate
-from app.model_loader import load_model
-from app.audio_processing import AudioProcessor
+from src.utils.validator import validate
+from src.utils.model_loader import load_model
+from src.utils.audio_processing import AudioProcessor
 
 load_dotenv()
 
@@ -49,6 +49,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):

@@ -1,6 +1,13 @@
-backend/__pycache__
-backend/app/__pycache__
+# backend
+.venv/
+__pycache__/
+*.pyc
 backend/temp
 backend/tests
+
+# frontend
 frontend/node_modules
-.env
+
+# enviroment files
+*.env
+!*.env.example
