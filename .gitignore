@@ -8,6 +8,12 @@ backend/tests
 # frontend
 frontend/node_modules
 
+# infrastructure
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+
 # enviroment files
 *.env
 !*.env.example

@@ -20,6 +20,17 @@ pnpm install
 pnpm dev
 ```
 
+## Infraestructura
+
+Se recomienda tener instalado Opentofu, luego ejecutar:
+```bash
+tofu init
+# visualizar cambios realizados en infra
+tofu plan
+# aplicar cambios en infra
+tofu apply
+```
+
 # Tecnologías utilizadas
 
 Frontend:
@@ -34,6 +45,8 @@ Backend:
 - Poetry
 - FastAPI
 - PyTorch
+
+Para manejar la infraestructura se utiliza la solución de IaC llamada [Opentofu](https://opentofu.org/docs/).
 
 ## Licencia
 

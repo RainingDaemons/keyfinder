@@ -6,7 +6,9 @@ RUN pip install --no-cache-dir poetry==1.8.3
 
 # No crear virtualenv: el contenedor ya es un entorno aislado
 ENV POETRY_NO_INTERACTION=1
+
 RUN python -m venv /venv
+ENV VIRTUAL_ENV=/venv
 ENV PATH="/venv/bin:$PATH"
 
 # --no-root: instala solo dependencias
