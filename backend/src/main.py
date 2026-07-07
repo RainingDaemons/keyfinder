@@ -7,6 +7,9 @@
 """
 
 import os
+import tempfile
+from pathlib import Path
+
 import torch
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, HTTPException
@@ -15,8 +18,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.utils.validator import validate
 from src.utils.model_loader import load_model
 from src.utils.audio_processing import AudioProcessor
+from src.utils.gcs_storage import upload_temp_audio, download_temp_audio, delete_temp_audio
 
-load_dotenv()
+# .env está en la raíz del repo (dos niveles arriba)
+ROOT_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT_DIR / ".env")
 
 FRONT_URL = os.getenv("FRONT_URL")
 ENV = os.getenv("ENV")
@@ -56,18 +62,19 @@ async def health():
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    temp_dir = "temp"
-    os.makedirs(temp_dir, exist_ok=True)
+    file_bytes = await file.read()
 
-    temp_path = os.path.join(temp_dir, file.filename)
+    blob_name = upload_temp_audio(file_bytes, file.filename)
 
-    with open(temp_path, "wb") as f:
-        f.write(await file.read())
-
-    await validate(file, temp_path)
+    suffix = os.path.splitext(file.filename)[1]
+    local_path = tempfile.NamedTemporaryFile(suffix=suffix, delete=False).name
 
     try:
-        x = processor.process(temp_path)
+        download_temp_audio(blob_name, local_path)
+
+        await validate(file, local_path)
+
+        x = processor.process(local_path)
 
         with torch.no_grad():
             logits = model(x)
@@ -82,11 +89,9 @@ async def predict(file: UploadFile = File(...)):
         }
     
     except Exception:
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
-        
         raise HTTPException(status_code=500, detail="Could not process audio file")
 
     finally:
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
+        if os.path.exists(local_path):
+            os.remove(local_path)
+        delete_temp_audio(blob_name)

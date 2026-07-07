@@ -53,7 +53,7 @@ const AudioUpload = () => {
 
             const apiUrl = import.meta.env.PROD
                 ? import.meta.env.VITE_API_URL
-                : "http://127.0.0.1:8000/predict";
+                : "http://127.0.0.1:8080/predict";
             
             const apiRes = await fetch(apiUrl, {
                 method: "POST",

@@ -43,3 +43,10 @@ resource "google_cloud_run_v2_service_iam_member" "public" {
     role     = "roles/run.invoker"
     member   = "allUsers"
 }
+
+# IAM - Permitir que la cuenta de servicio de Cloud Run acceda al bucket de GCS
+resource "google_storage_bucket_iam_member" "cloud_run_access" {
+    bucket = var.bucket_name
+    role   = "roles/storage.objectAdmin"
+    member = "serviceAccount:60647721555-compute@developer.gserviceaccount.com"
+}

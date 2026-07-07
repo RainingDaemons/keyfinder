@@ -16,6 +16,7 @@ librosa = "*"
 numpy = "*"
 python-dotenv = "*"
 python-multipart = "*"
+google-cloud-storage = "*"
 
 [[tool.poetry.source]]
 name = "pytorch-cpu"
