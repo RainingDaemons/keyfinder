@@ -1,8 +1,7 @@
 """
-@Date         : 06-01-2026
-@Author       : Felipe Gutiérrez Carilao
-@Website      : https://www.rainingdaemons.com/
-@Module       : backend/app
+@Author       : Felipe Gutiérrez
+@Website      : https://www.rainingdaemons.com
+@Module       : backend.src.utils
 @File         : model_loader.py
 """
 

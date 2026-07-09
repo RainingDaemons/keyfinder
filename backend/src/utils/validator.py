@@ -1,9 +1,8 @@
 """
-@Date         : 06-01-2026
 @Author       : Felipe Gutiérrez Carilao
 @Website      : https://www.rainingdaemons.com/
-@Module       : backend/app
-@File         : model_loader.py
+@Module       : backend.src.utils
+@File         : validator.py
 """
 
 import os

@@ -21,6 +21,8 @@ module "run" {
     service_region = "us-central1"
     image          = "us-central1-docker.pkg.dev/${var.project_id}/keyfinder-api/release:latest"
     bucket_name    = "keyfinder-storage"
+    front_url      = "https://keyfinder.pages.dev"
+    env            = "production"
 }
 
 module "storage" {

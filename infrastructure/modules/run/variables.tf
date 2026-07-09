@@ -23,3 +23,13 @@ variable "bucket_name" {
     description = "Nombre del bucket GCS"
     type        = string
 }
+
+variable "front_url" {
+    type        = string
+    description = "URL del frontend permitido para CORS"
+}
+
+variable "env" {
+    type        = string
+    description = "Ambiente de despliegue"
+}

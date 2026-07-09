@@ -11,4 +11,8 @@ resource "google_storage_bucket" "main" {
     labels = {
         managed_by = "opentofu"
     }
+
+    soft_delete_policy {
+        retention_duration_seconds = 0
+    }
 }

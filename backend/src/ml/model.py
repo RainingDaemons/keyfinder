@@ -1,9 +1,7 @@
 """
-@Date         : 14-10-2025
-@Author       : Felipe Gutiérrez Carilao
-@Affiliation  : Universidad Andrés Bello
-@Email        : f.gutierrezcarilao@uandresbello.edu
-@Module       : backend/app
+@Author       : Felipe Gutiérrez
+@Website      : https://www.rainingdaemons.com
+@Module       : backend.src.ml
 @File         : model.py
 
 @Credits      : Tesis "KeyR2Net: Aprendizaje residual-recurrente para la estimación de claves musicales"

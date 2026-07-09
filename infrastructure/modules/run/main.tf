@@ -10,7 +10,7 @@ resource "google_cloud_run_v2_service" "api" {
             resources {
                 limits = {
                     cpu    = "1"
-                    memory = "512Mi"
+                    memory = "1Gi"
                 }
             }
 
@@ -22,6 +22,16 @@ resource "google_cloud_run_v2_service" "api" {
             env {
                 name  = "GCS_BUCKET"
                 value = "${var.bucket_name}"
+            }
+
+            env {
+                name  = "FRONT_URL"
+                value = "${var.front_url}"
+            }
+
+            env {
+                name  = "ENV"
+                value = "${var.env}"
             }
         }
     }

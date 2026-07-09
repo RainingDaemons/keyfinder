@@ -1,8 +1,7 @@
 """
-@Date         : 06-01-2026
-@Author       : Felipe Gutiérrez Carilao
-@Website      : https://www.rainingdaemons.com/
-@Module       : backend
+@Author       : Felipe Gutiérrez
+@Website      : https://www.rainingdaemons.com
+@Module       : backend.src
 @File         : main.py
 """
 
@@ -64,7 +63,7 @@ async def health():
 async def predict(file: UploadFile = File(...)):
     file_bytes = await file.read()
 
-    blob_name = upload_temp_audio(file_bytes, file.filename)
+    blob_name = upload_temp_audio(file_bytes)
 
     suffix = os.path.splitext(file.filename)[1]
     local_path = tempfile.NamedTemporaryFile(suffix=suffix, delete=False).name
