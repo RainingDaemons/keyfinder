@@ -18,6 +18,7 @@ from src.utils.validator import validate
 from src.utils.model_loader import load_model
 from src.utils.audio_processing import AudioProcessor
 from src.utils.gcs_storage import upload_temp_audio, download_temp_audio, delete_temp_audio
+from src.utils.rate_limiter import RateLimitMiddleware
 
 # .env está en la raíz del repo (dos niveles arriba)
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -54,6 +55,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(RateLimitMiddleware, max_requests=10, window_seconds=60)
 
 @app.get("/health")
 async def health():
