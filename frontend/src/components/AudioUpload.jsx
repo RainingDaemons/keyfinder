@@ -2,14 +2,20 @@
 @Date         : 06-01-2026
 @Author       : Felipe Gutiérrez Carilao
 @Website      : https://www.rainingdaemons.com/
-@Module       : frontend/src/app
+@Module       : frontend/src/components
 @File         : AudioUpload.jsx
 */
 
 import { createSignal } from "solid-js";
-import AudioWaveIcon from "../icons/audiowave.svg";
-import PrivacyIcon from "../icons/privacy.svg";
-import LoadingIcon from "../icons/loading.svg";
+
+const Icons = {
+    AudioWaveIcon: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" class="scale-150 text-indigo-400"><path fill="currentColor" d="M18.813 2.031a.95.95 0 0 0-.75.969v19a.95.95 0 1 0 1.875 0V3a.95.95 0 0 0-1.032-.969a1 1 0 0 0-.093 0m-12 1a.95.95 0 0 0-.75.969v17a.95.95 0 1 0 1.875 0V4a.95.95 0 0 0-1.032-.969a1 1 0 0 0-.093 0m9 3a.95.95 0 0 0-.75.969v11a.95.95 0 1 0 1.874 0V7a.95.95 0 0 0-1.03-.969a1 1 0 0 0-.095 0zm-12 1a.95.95 0 0 0-.75.969v9a.95.95 0 1 0 1.874 0V8a.95.95 0 0 0-1.03-.969a1 1 0 0 0-.095 0zm6 1a.95.95 0 0 0-.75.969v7a.95.95 0 1 0 1.874 0V9a.95.95 0 0 0-1.03-.969a1 1 0 0 0-.095 0zm12 0a.95.95 0 0 0-.75.969v7a.95.95 0 1 0 1.875 0V9a.95.95 0 0 0-1.032-.969a1 1 0 0 0-.093 0m-21 2a.95.95 0 0 0-.75.969v3a.95.95 0 1 0 1.875 0v-3a.95.95 0 0 0-1.032-.969a1 1 0 0 0-.094 0zm12 0a.95.95 0 0 0-.75.969v3a.95.95 0 1 0 1.874 0v-3a.95.95 0 0 0-1.03-.969a1 1 0 0 0-.095 0zm12 0a.95.95 0 0 0-.75.969v3a.95.95 0 1 0 1.875 0v-3a.95.95 0 0 0-1.032-.969a1 1 0 0 0-.093 0"/></svg>
+    ),
+    LoadingIcon: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="scale-150 animate-pulse text-indigo-500"><circle cx="18" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin=".67" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle><circle cx="12" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin=".33" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle><circle cx="6" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin="0" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle></svg>
+    )
+}
 
 const AudioUpload = () => {
     const [file, setFile] = createSignal(null);
@@ -134,12 +140,12 @@ const AudioUpload = () => {
                             {!file() ? (
                                 <>
                                     <div class="mx-auto mb-4 w-12 h-12 flex items-center justify-center rounded-lg">
-                                        <AudioWaveIcon class="scale-200 text-indigo-400"/>
+                                        <Icons.AudioWaveIcon />
                                     </div>
                                     <p class="text-indigo-400 font-medium">
                                         Drop your audio file
                                     </p>
-                                    <p class="mt-1 text-xs text-white/50">
+                                    <p class="mt-3 text-xs text-white/50">
                                         MP3, WAV, OGG up to 10MB
                                     </p>
                                     <p class="mt-1 text-xs text-white/50">
@@ -178,21 +184,12 @@ const AudioUpload = () => {
                                         Identify
                                     </button>
                                 ) : (
-                                    <LoadingIcon class="scale-150 animate-pulse text-indigo-500" />
+                                    <div class="mx-auto mb-4 w-12 h-12 flex items-center justify-center rounded-lg">
+                                        <Icons.LoadingIcon />
+                                    </div>
                                 )}
                             </div>
                         )}
-                        <section id="privacy_notice">
-                            <div class="flex pt-4">
-                                <PrivacyIcon class="scale-110 text-white/60"/>
-                                <p class="text-sm text-white/60">
-                                    Privacy notice:
-                                </p>
-                            </div>
-                            <p class="text-sm text-white/60">
-                                Once key is determined, audio file will be deleted from our servers
-                            </p>
-                        </section>
                     </div>
                 </>
             ) : (
