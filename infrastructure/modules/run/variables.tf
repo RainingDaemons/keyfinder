@@ -3,6 +3,11 @@ variable "project_id" {
     type        = string
 }
 
+variable "service_account" {
+    description = "Cuenta de servicio para Cloud Run con acceso a Buckets"
+    type        = string
+}
+
 variable "service_name" {
     description = "Nombre del servicio de Cloud Run"
     type        = string

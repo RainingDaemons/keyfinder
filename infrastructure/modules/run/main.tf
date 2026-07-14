@@ -12,6 +12,7 @@ resource "google_cloud_run_v2_service" "api" {
                     cpu    = "1"
                     memory = "1Gi"
                 }
+                cpu_idle = true # fuerza request-based billing
             }
 
             ports {
@@ -58,5 +59,5 @@ resource "google_cloud_run_v2_service_iam_member" "public" {
 resource "google_storage_bucket_iam_member" "cloud_run_access" {
     bucket = var.bucket_name
     role   = "roles/storage.objectAdmin"
-    member = "serviceAccount:60647721555-compute@developer.gserviceaccount.com"
+    member = "${var.service_account}"
 }

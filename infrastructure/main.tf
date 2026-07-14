@@ -16,13 +16,14 @@ provider "google" {
 module "run" {
     source = "./modules/run"
 
-    project_id     = var.project_id
-    service_name   = "keyfinder-api-service"
-    service_region = "us-central1"
-    image          = "us-central1-docker.pkg.dev/${var.project_id}/keyfinder-api/release:latest"
-    bucket_name    = "keyfinder-storage"
-    front_url      = "https://keyfinder.pages.dev"
-    env            = "production"
+    project_id      = var.project_id
+    service_account = var.service_account_buck
+    service_name    = "keyfinder-api-service"
+    service_region  = "us-central1"
+    image           = "us-central1-docker.pkg.dev/${var.project_id}/keyfinder-api/release:latest"
+    bucket_name     = "keyfinder-storage"
+    front_url       = "https://keyfinder.pages.dev"
+    env             = "production"
 }
 
 module "storage" {
