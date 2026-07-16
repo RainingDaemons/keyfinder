@@ -59,5 +59,5 @@ resource "google_cloud_run_v2_service_iam_member" "public" {
 resource "google_storage_bucket_iam_member" "cloud_run_access" {
     bucket = var.bucket_name
     role   = "roles/storage.objectAdmin"
-    member = "${var.service_account}"
+    member = "serviceAccount:${var.service_account}"
 }

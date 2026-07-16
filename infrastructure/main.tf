@@ -13,23 +13,23 @@ provider "google" {
     zone    = "us-central1-c"
 }
 
+module "storage" {
+    source = "./modules/storage"
+
+    project_id    = var.project_id
+    bucket_name   = "keyfinder-storage2"
+    bucket_region = "us-central1"
+}
+
 module "run" {
     source = "./modules/run"
 
     project_id      = var.project_id
     service_account = var.service_account_buck
-    service_name    = "keyfinder-api-service"
+    service_name    = "keyfinder-run"
     service_region  = "us-central1"
     image           = "us-central1-docker.pkg.dev/${var.project_id}/keyfinder-api/release:latest"
-    bucket_name     = "keyfinder-storage"
+    bucket_name     = "keyfinder-storage2"
     front_url       = "https://keyfinder.pages.dev"
     env             = "production"
-}
-
-module "storage" {
-    source = "./modules/storage"
-
-    project_id    = var.project_id
-    bucket_name   = "keyfinder-storage"
-    bucket_region = "us-central1"
 }

@@ -26,6 +26,7 @@ load_dotenv(ROOT_DIR / ".env")
 
 FRONT_URL = os.getenv("FRONT_URL")
 ENV = os.getenv("ENV")
+print(f"ENV: {ENV}")
 
 if ENV == "production":
     docs_url = None
@@ -66,34 +67,68 @@ async def health():
 async def predict(file: UploadFile = File(...)):
     file_bytes = await file.read()
 
-    blob_name = upload_temp_audio(file_bytes)
+    if ENV == "production":
+        blob_name = upload_temp_audio(file_bytes)
 
-    suffix = os.path.splitext(file.filename)[1]
-    local_path = tempfile.NamedTemporaryFile(suffix=suffix, delete=False).name
+        suffix = os.path.splitext(file.filename)[1]
+        local_path = tempfile.NamedTemporaryFile(suffix=suffix, delete=False).name
 
-    try:
-        download_temp_audio(blob_name, local_path)
+        try:
+            download_temp_audio(blob_name, local_path)
 
-        await validate(file, local_path)
+            await validate(file, local_path)
 
-        x = processor.process(local_path)
+            x = processor.process(local_path)
 
-        with torch.no_grad():
-            logits = model(x)
-            probs = torch.softmax(logits, dim=1)
+            with torch.no_grad():
+                logits = model(x)
+                probs = torch.softmax(logits, dim=1)
 
-            pred_class = torch.argmax(probs, dim=1).item()
-            confidence = probs.max(dim=1).values.item()
+                pred_class = torch.argmax(probs, dim=1).item()
+                confidence = probs.max(dim=1).values.item()
 
-        return {
-            "class": real_labels[pred_class],
-            "confidence": round(confidence, 3)
-        }
-    
-    except Exception:
-        raise HTTPException(status_code=500, detail="Could not process audio file")
+            return {
+                "class": real_labels[pred_class],
+                "confidence": round(confidence, 3)
+            }
+        
+        except Exception:
+            raise HTTPException(status_code=500, detail="Could not process audio file")
 
-    finally:
-        if os.path.exists(local_path):
-            os.remove(local_path)
-        delete_temp_audio(blob_name)
+        finally:
+            if os.path.exists(local_path):
+                os.remove(local_path)
+            delete_temp_audio(blob_name)
+    else:
+        temp_dir = ROOT_DIR / "backend" / "temp"
+        temp_dir.mkdir(exist_ok=True)
+
+        suffix = os.path.splitext(file.filename)[1]
+        local_path = str(temp_dir / f"upload{suffix}")
+
+        try:
+            with open(local_path, "wb") as f:
+                f.write(file_bytes)
+
+            await validate(file, local_path)
+
+            x = processor.process(local_path)
+
+            with torch.no_grad():
+                logits = model(x)
+                probs = torch.softmax(logits, dim=1)
+
+                pred_class = torch.argmax(probs, dim=1).item()
+                confidence = probs.max(dim=1).values.item()
+
+            return {
+                "class": real_labels[pred_class],
+                "confidence": round(confidence, 3)
+            }
+
+        except Exception:
+            raise HTTPException(status_code=500, detail="Could not process audio file")
+
+        finally:
+            if os.path.exists(local_path):
+                os.remove(local_path)

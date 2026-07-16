@@ -13,6 +13,10 @@ $PROJECT_ID = $env:PROJECT_ID
 $ADMIN = $env:ADMIN_EMAIL
 $MEMBER = "user:$ADMIN"
 
+# Activar servicios necesarios
+gcloud services enable run.googleapis.com storage.googleapis.com artifactregistry.googleapis.com `
+    --project=$PROJECT_ID
+
 # Cloud Run
 gcloud projects add-iam-policy-binding $PROJECT_ID `
     --member=$MEMBER --role="roles/run.admin"
